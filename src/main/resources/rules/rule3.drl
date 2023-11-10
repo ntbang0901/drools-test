@@ -1,0 +1,13 @@
+import com.example.rule.model.Participant;
+global com.example.rule.model.Rate rate;
+
+dialect "mvel"
+
+
+rule "Checking Annual id == 1"
+ when
+  Participant(id == 1)
+ then
+  rate.setLoanStatus("Rejected - Too low salary");
+  rate.setLoanRate(999);
+end
