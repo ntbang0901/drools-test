@@ -1,11 +1,15 @@
 package com.example.rule.controller;
 
+import com.example.rule.model.CartItem;
 import com.example.rule.model.Participant;
+import com.example.rule.model.Promotion;
 import com.example.rule.model.Rate;
 import com.example.rule.service.DroolsService;
 
 import java.util.List;
+import java.util.Map;
 
+import org.kie.api.definition.rule.Rule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +26,9 @@ public class DroolsSampleController {
     private DroolsService bankService;
 
     @PostMapping("/getrate")
-    public ResponseEntity<Rate> getRate(@RequestBody Participant request) {
-        Rate rate = bankService.getRate(request);
-        return new ResponseEntity<>(rate, HttpStatus.OK);
+    public ResponseEntity<List<?>> getRate(@RequestBody CartItem request) {
+        List<?> response = bankService.getRate(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

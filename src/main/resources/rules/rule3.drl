@@ -1,13 +1,32 @@
-import com.example.rule.model.Participant;
+package com.example.rules
+
+import com.example.rule.model.CartItem;
 global com.example.rule.model.Rate rate;
+import com.example.rule.model.Promotion;
+import com.example.rule.model.Product;
 
-dialect "mvel"
+
+rule "Apply Promotion"
+    when
+
+        $cartItem : CartItem()
+        $product : Product() from $cartItem.products
+        $promotion: Promotion(productId == $product.id)
+    then
+        // Áp dụng khuyến mãi vào giỏ hàng
+        rate.addPromotion($promotion);
+
+end
 
 
-rule "Checking Annual id == 1"
- when
-  Participant(id == 1)
- then
-  rate.setLoanStatus("Rejected - Too low salary");
-  rate.setLoanRate(999);
+
+rule "Apply Promotion 1"
+    when
+
+        $cartItem : CartItem(totalPrice*1.1 >= 200000)
+        $promotion: Promotion()
+    then
+        // Áp dụng khuyến mãi vào giỏ hàng
+        rate.addPromotion($promotion);
+
 end
