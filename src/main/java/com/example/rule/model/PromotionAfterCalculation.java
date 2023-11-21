@@ -11,4 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PromotionAfterCalculation  extends  Promotion{
     private Double result;
+    private Double tienmuathem;
+    private Integer soLuongMuaThem;
 }

@@ -1,9 +1,6 @@
 package com.example.rule.controller;
 
-import com.example.rule.model.CartItem;
-import com.example.rule.model.Participant;
-import com.example.rule.model.Promotion;
-import com.example.rule.model.Rate;
+import com.example.rule.model.*;
 import com.example.rule.service.DroolsService;
 
 import java.util.List;
@@ -26,8 +23,8 @@ public class DroolsSampleController {
     private DroolsService bankService;
 
     @PostMapping("/getrate")
-    public ResponseEntity<List<?>> getRate(@RequestBody CartItem request) {
-        List<?> response = bankService.getRate(request);
+    public ResponseEntity<Response> getRate(@RequestBody CartItem request) {
+        Response response = (Response) bankService.getRate(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

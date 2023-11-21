@@ -14,11 +14,15 @@ import java.util.Date;
 @NoArgsConstructor
 public class Promotion {
     private int id;
-    private int productId;
+    private String productId;
+    private int priceProduct;
     private String name;
     private String desc;
     private Date start;
     private Date end;
-    private Double value;
-    private Double condition;
+    private Integer value;
+    private Double conditionTotalCart;
+    private Integer conditionQuantity;
+    private String type;
+
 }
