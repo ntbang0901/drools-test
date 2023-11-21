@@ -1,13 +1,23 @@
-import com.example.rule.model.Participant;
+import com.example.rule.model.Product;
+import com.example.rule.DTO.Product_Place_DTO;
+import com.example.rule.model.Place;
 global com.example.rule.model.Rate rate;
 
 dialect "mvel"
 
 
-rule "Checking Annual Salary is greater than 50000"
+rule "Discount"
  when
-  Participant(annualSalary <= 50000)
+  sfObject: Product_Place_DTO(product.id == "DT") and Product_Place_DTO(place.city == "HCM" && place.district == null)
  then
-  rate.setLoanStatus("Rejected - Too low salary");
-  rate.setLoanRate(999);
+  rate.setLoanStatus("Discount");
+  rate.setLoanRate(10000);
+end
+
+rule "Discount1"
+ when
+  sfObject: Product_Place_DTO(product.id == "ABC") and Product_Place_DTO(place.city == "HCM" && place.district == "BinhChanh")
+ then
+  rate.setLoanStatus("Discount");
+  rate.setLoanRate(10/100);
 end

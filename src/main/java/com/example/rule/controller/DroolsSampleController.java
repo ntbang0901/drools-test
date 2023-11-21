@@ -1,6 +1,6 @@
 package com.example.rule.controller;
 
-import com.example.rule.model.Participant;
+import com.example.rule.DTO.Product_Place_DTO;
 import com.example.rule.model.Rate;
 import com.example.rule.service.DroolsService;
 
@@ -22,7 +22,7 @@ public class DroolsSampleController {
     private DroolsService bankService;
 
     @PostMapping("/getrate")
-    public ResponseEntity<Rate> getRate(@RequestBody Participant request) {
+    public ResponseEntity<Rate> getRate(@RequestBody Product_Place_DTO request) {
         Rate rate = bankService.getRate(request);
         return new ResponseEntity<>(rate, HttpStatus.OK);
     }

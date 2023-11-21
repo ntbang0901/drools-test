@@ -1,6 +1,6 @@
 package com.example.rule.service;
 
-import com.example.rule.model.Participant;
+import com.example.rule.DTO.Product_Place_DTO;
 import com.example.rule.model.Rate;
 
 import java.io.File;
@@ -30,25 +30,29 @@ public class DroolsService {
     @Autowired
     private KieContainer kieContainer;
 
-    public Rate getRate(Participant applicantRequest) {
+    public Rate getRate(Product_Place_DTO applicantRequest) {
         int nRules = 0;
         Collection<KiePackage> packages = kieContainer.getKieBase().getKiePackages();
         Rate rate = new Rate();
         KieSession kieSession = kieContainer.newKieSession();
-        List<Rule> listRules = new ArrayList<>();
-        for( KiePackage pack: packages ){
-            listRules.addAll(pack.getRules());
-        }
+//        List<Rule> listRules = new ArrayList<>();
+//        for( KiePackage pack: packages ){
+//            listRules.addAll(pack.getRules());
+//        }
+//        kieSession.setGlobal("rate", rate);
+//        kieSession.insert(applicantRequest);
+//        kieSession.fireAllRules();
+//        kieSession.dispose();
+//        for (Rule rule : listRules) {
+//            RuleImpl ri = (RuleImpl) rule;
+//            System.out.println("L: " + ri.getLhs());
+//            System.out.println("Name: " + ri.getName());
+//            System.out.println("L2: " + ri.getLhs().getChildren().get(0).getNestedElements());
+//        }
         kieSession.setGlobal("rate", rate);
         kieSession.insert(applicantRequest);
         kieSession.fireAllRules();
         kieSession.dispose();
-        for (Rule rule : listRules) {
-            RuleImpl ri = (RuleImpl) rule;
-            System.out.println("L: " + ri.getLhs());
-            System.out.println("Name: " + ri.getName());
-            System.out.println("L2: " + ri.getLhs().getChildren().get(0).getNestedElements());
-        }
         return rate;
     }
 
