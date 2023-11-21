@@ -7,12 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Product {
-    private String id;
-    private int quantity;
-    private int price;
-    private String name;
-
+@AllArgsConstructor
+public class PromotionAfterCalculation  extends  Promotion{
+    private Double result;
+    private Double tienmuathem;
+    private Integer soLuongMuaThem;
 }
