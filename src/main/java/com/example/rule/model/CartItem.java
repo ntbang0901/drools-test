@@ -15,6 +15,8 @@ import java.util.List;
 public class CartItem {
     private int totalQuantity;
     private double totalPrice;
-    List<Product> products  = new ArrayList<>();
+    List<ProductCart> products  = new ArrayList<>();
     // getters and setters
+
+
 }

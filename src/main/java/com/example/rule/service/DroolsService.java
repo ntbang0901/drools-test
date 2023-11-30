@@ -1,9 +1,10 @@
 package com.example.rule.service;
 
+
+import com.example.rule.entity.ProductEntity;
 import com.example.rule.model.*;
 
 import java.util.*;
-
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.BeanUtils;
@@ -14,12 +15,13 @@ import org.springframework.stereotype.Service;
 public class DroolsService {
     @Autowired
     private KieContainer kieContainer;
-    List<Promotion> promotions = new ArrayList<>();
-    List<Product> products = new ArrayList<>() {{
-        add(new Product("1001",2,195000,"AAA"));
-        add(new Product("1002",3,140000,"BBB"));
+    @Autowired
+    private ProductService productService;
 
-    }};
+//    private IList<Promotion> promotionsCache;
+    List<Promotion> promotions = new ArrayList<>();
+
+    List<ProductDTO> products = new ArrayList<>();
 
     List<String> listIdProductInPRomotion = Arrays.asList("4241412000773", "4241412000773", "1073200001097", "4241412000773", "4241412000773", "4241412000773", "4241412000773", "1052846000428", "1052846000428", "4241412000773", "4241412000773", "4241412000773", "4241412000773", "4241412000773",
             "4241412000773", "4241412000773", "4241412000035", "4241412000035", "4241412000035", "4241412000035", "4241412000035", "1073200001027", "1073200001028", "1073200001029", "1073200001030", "1073200001031", "1073200001032", "1073200001093", "1073200001094", "1073200001099", "1073200001100",
@@ -56,7 +58,7 @@ public class DroolsService {
     List<Integer> quantityProductPromotion = Arrays.asList(4, 4, 4, 5, 5, 6, 6, 2, 2, 10, 16, 22, 3, 3, 2, 2, 2, 3, 4, 5, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 2, 2, 2, 1, 1, 1, 3, 1, 2, 2, 1, 2, 2, 2, 2, 3, 3, 3, 3, 2, 3, 4, 5, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 2, 3, 3, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2, 4, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4
     );
 
-    List<Integer> listPriceProduct  = Arrays.asList(184000, 184000, 56000, 184000, 184000, 184000, 184000, 829000, 829000, 184000, 184000, 184000, 184000, 184000, 184000, 184000, 463000, 463000, 463000, 463000, 463000, 71000, 94000, 85000, 141000, 130000, 81000, 60000, 79000, 73000, 102000, 138000, 138000, 69000, 134000, 134000, 134000, 102000, 102000, 102000, 51000, 64000, 73000, 134000, 134000, 107000, 107000, 134000, 134000, 203000, 138000, 88000, 343000, 398000, 343000, 343000, 343000, 343000, 343000, 343000, 343000, 343000, 412000, 236000, 449000, 449000, 477000, 829000, 819000, 1162000, 565000, 462000, 462000, 64000, 273000, 241000, 329000, 366000, 518000, 367000, 344000, 467000, 522000, 463000, 463000, 463000, 463000, 463000, 343000, 398000, 343000, 343000, 343000, 343000, 343000, 343000, 343000, 343000, 343000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 71000, 94000, 85000, 141000, 130000, 81000, 22000, 150000, 26000, 160000, 57000, 87000, 118000, 65000, 101000, 149000, 60000, 79000, 73000, 102000, 138000, 138000, 69000, 134000, 134000, 134000, 102000, 102000, 102000, 51000, 64000, 73000, 134000, 134000, 107000, 107000, 134000, 134000, 203000, 138000, 88000, 96000, 96000, 96000, 96000, 104000, 104000, 104000, 104000, 104000, 104000, 104000, 104000, 111000, 111000, 111000, 111000, 119000, 119000, 119000, 119000, 126000, 126000, 126000, 126000, 100000, 100000, 100000, 100000, 107000, 107000, 107000, 107000, 109000, 109000, 109000, 109000, 117000, 117000, 117000, 117000, 156000, 156000, 156000, 156000, 156000, 156000, 179000, 179000, 179000, 179000, 87000, 87000, 87000, 87000, 94000, 94000, 94000, 94000, 87000, 87000, 87000, 87000, 94000, 94000, 94000, 94000, 74000, 74000, 74000, 74000, 81000, 81000, 81000, 81000, 106000, 106000, 106000, 106000, 113000, 113000, 113000, 113000, 171000, 171000, 171000, 171000, 171000, 171000, 134000, 134000, 134000, 134000, 134000, 134000, 134000, 134000, 79000, 79000, 79000, 79000, 79000, 79000, 79000, 79000, 179000, 179000, 449000, 477000, 449000, 477000, 829000, 1162000, 1162000, 444000, 273000, 273000, 264000, 259000, 255000, 703000, 425000, 703000, 425000, 412000, 409000, 409000, 409000, 409000, 264000, 264000, 444000, 273000, 273000, 306000, 264000, 259000, 357000, 255000, 1162000, 500000, 315000, 315000, 314000, 193000, 220000, 271000, 357000, 296000, 296000, 120000, 220000, 220000, 220000, 271000, 271000, 271000, 271000, 144000, 194000, 315000, 315000, 194000, 412000, 412000, 412000, 412000, 357000, 357000, 412000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 315000, 315000, 314000, 193000, 220000, 271000, 357000, 296000, 296000, 120000, 220000, 220000, 220000, 271000, 271000, 271000, 271000, 374000, 374000, 374000, 374000, 144000, 194000, 315000, 315000, 194000, 412000, 412000, 412000, 412000, 357000, 357000, 412000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 500000, 71000, 94000, 85000, 141000, 130000, 81000, 22000, 150000, 26000, 160000, 57000, 87000, 118000, 65000, 101000, 149000, 73000, 102000, 138000, 138000, 69000, 134000, 134000, 134000, 102000, 102000, 102000, 51000, 64000, 73000, 134000, 134000, 107000, 107000, 134000, 134000, 203000, 138000, 88000, 82000, 128000, 51000, 119000, 92000
+    List<Integer> listPriceProductPromotion  = Arrays.asList(184000, 184000, 56000, 184000, 184000, 184000, 184000, 829000, 829000, 184000, 184000, 184000, 184000, 184000, 184000, 184000, 463000, 463000, 463000, 463000, 463000, 71000, 94000, 85000, 141000, 130000, 81000, 60000, 79000, 73000, 102000, 138000, 138000, 69000, 134000, 134000, 134000, 102000, 102000, 102000, 51000, 64000, 73000, 134000, 134000, 107000, 107000, 134000, 134000, 203000, 138000, 88000, 343000, 398000, 343000, 343000, 343000, 343000, 343000, 343000, 343000, 343000, 412000, 236000, 449000, 449000, 477000, 829000, 819000, 1162000, 565000, 462000, 462000, 64000, 273000, 241000, 329000, 366000, 518000, 367000, 344000, 467000, 522000, 463000, 463000, 463000, 463000, 463000, 343000, 398000, 343000, 343000, 343000, 343000, 343000, 343000, 343000, 343000, 343000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 71000, 94000, 85000, 141000, 130000, 81000, 22000, 150000, 26000, 160000, 57000, 87000, 118000, 65000, 101000, 149000, 60000, 79000, 73000, 102000, 138000, 138000, 69000, 134000, 134000, 134000, 102000, 102000, 102000, 51000, 64000, 73000, 134000, 134000, 107000, 107000, 134000, 134000, 203000, 138000, 88000, 96000, 96000, 96000, 96000, 104000, 104000, 104000, 104000, 104000, 104000, 104000, 104000, 111000, 111000, 111000, 111000, 119000, 119000, 119000, 119000, 126000, 126000, 126000, 126000, 100000, 100000, 100000, 100000, 107000, 107000, 107000, 107000, 109000, 109000, 109000, 109000, 117000, 117000, 117000, 117000, 156000, 156000, 156000, 156000, 156000, 156000, 179000, 179000, 179000, 179000, 87000, 87000, 87000, 87000, 94000, 94000, 94000, 94000, 87000, 87000, 87000, 87000, 94000, 94000, 94000, 94000, 74000, 74000, 74000, 74000, 81000, 81000, 81000, 81000, 106000, 106000, 106000, 106000, 113000, 113000, 113000, 113000, 171000, 171000, 171000, 171000, 171000, 171000, 134000, 134000, 134000, 134000, 134000, 134000, 134000, 134000, 79000, 79000, 79000, 79000, 79000, 79000, 79000, 79000, 179000, 179000, 449000, 477000, 449000, 477000, 829000, 1162000, 1162000, 444000, 273000, 273000, 264000, 259000, 255000, 703000, 425000, 703000, 425000, 412000, 409000, 409000, 409000, 409000, 264000, 264000, 444000, 273000, 273000, 306000, 264000, 259000, 357000, 255000, 1162000, 500000, 315000, 315000, 314000, 193000, 220000, 271000, 357000, 296000, 296000, 120000, 220000, 220000, 220000, 271000, 271000, 271000, 271000, 144000, 194000, 315000, 315000, 194000, 412000, 412000, 412000, 412000, 357000, 357000, 412000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 315000, 315000, 314000, 193000, 220000, 271000, 357000, 296000, 296000, 120000, 220000, 220000, 220000, 271000, 271000, 271000, 271000, 374000, 374000, 374000, 374000, 144000, 194000, 315000, 315000, 194000, 412000, 412000, 412000, 412000, 357000, 357000, 412000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 357000, 500000, 71000, 94000, 85000, 141000, 130000, 81000, 22000, 150000, 26000, 160000, 57000, 87000, 118000, 65000, 101000, 149000, 73000, 102000, 138000, 138000, 69000, 134000, 134000, 134000, 102000, 102000, 102000, 51000, 64000, 73000, 134000, 134000, 107000, 107000, 134000, 134000, 203000, 138000, 88000, 82000, 128000, 51000, 119000, 92000
     );
 
 
@@ -97,32 +99,49 @@ public class DroolsService {
 
 
 
+
         for(int i = 1; i <= listIdProductInPRomotion.size(); i++) {
-            promotions.add(new Promotion(i,listIdProductInPRomotion.get(i - 1), listPriceProduct.get(i - 1), "Kịch bản product " + i, "Mô tả kịch bản product " + i, new Date(), new Date(), listProfitProduct.get(i - 1), null , quantityProductPromotion.get(i - 1), "product"));
+            promotions.add(new Promotion(i,listIdProductInPRomotion.get(i - 1), listPriceProductPromotion.get(i - 1), "Kịch bản product " + i, "Mô tả kịch bản product " + i, new Date(), new Date(), listProfitProduct.get(i - 1), null , quantityProductPromotion.get(i - 1), "product"));
 
         }
 
         for (int i = 1; i <= listCondition.size(); i++) {
             promotions.add(new Promotion(i, null,0, "Kịch bản " + i, "Mô tả kịch bản " + i, new Date(), new Date(), listValue.get(i-1), listCondition.get(i-1) , null, "cart"));
         }
+
+//        promotionsCache.addAll(promotions);
     }
-    public Response getRate(CartItem applicantRequest) {
 
+    public Integer getTotalCart(CartItem order , List<ProductDTO> products){
+        int total = 0;
+        for(int i = 0 ; i< order.getProducts().size() ; i++){
+            int finalI = i;
+            ProductDTO found = products.stream().filter(p -> p.getProductId().equals(order.getProducts().get(finalI).getProductId())).toList().get(0);
+            total+= found.getPrice().intValue() * order.getProducts().get(i).getQuantity();
+        }
+        return total;
+    }
+    public Response getSuggestPromotion(RequestSP applicantRequest) {
 
-        System.out.print("time in milliseconds START = ");
-        long start = System.currentTimeMillis();
-        System.out.println(start);
+        products = productService.getAllProduct();
+
+        ProductEntity found = null;
         Rate rate = new Rate();
-        CartItem item = new CartItem(10,155000,products);
-        KieSession kieSession = kieContainer.newKieSession();
-        //kieSession.setGlobal("rate", rate);
-        //kieSession.insert(applicantRequest);
-        kieSession.insert(applicantRequest);
+        long start = System.currentTimeMillis();
+        CartItem cart = applicantRequest.getCart();
+        int totalPrice = this.getTotalCart(cart,products);
 
-        for (Product product : applicantRequest.getProducts()) {
-            kieSession.insert(product);
+        if(applicantRequest.getProduct() != null && applicantRequest.getProduct().getProductId() != null && !applicantRequest.getProduct().getProductId().isEmpty() ){
+            found = productService.findById(applicantRequest.getProduct().getProductId());
         }
 
+        KieSession kieSession = kieContainer.newKieSession();
+        kieSession.insert(cart);
+        kieSession.insert(found);
+        kieSession.insert(found);
+        for (ProductCart product : cart.getProducts()) {
+            kieSession.insert(product);
+        }
         // Insert danh sách các khuyến mãi vào kieSession
         for (Promotion promotion : promotions) {
             kieSession.insert(promotion);
@@ -131,58 +150,84 @@ public class DroolsService {
 
         kieSession.fireAllRules();
         kieSession.dispose();
-        Response res = this.CalculationPromotion(rate.getListRules(),applicantRequest.getTotalPrice(), applicantRequest.getProducts());
-        System.out.print("time in milliseconds END = ");
+        Response res = this.calculatePromotions(rate.getListRules(), totalPrice, cart.getProducts(), found);
         long end = System.currentTimeMillis();
-        System.out.println(end);
-
-        System.out.print("time in milliseconds TOTAL -> " + (end - start) + "ms");
+        System.out.println("time in milliseconds TOTAL -> " + (end - start) + "ms");
         return res ;
     }
-
-    public Response CalculationPromotion(List<Promotion> promotionsFilted , Double amount, List<Product> productsOrders){
-        Double percentage = ranges.floorEntry(amount).getValue();
-        int percentageItem = 0;
+    public Response calculatePromotions(List<Promotion> promotionsFiltered, double amount,
+                                        List<ProductCart> productsOrders, ProductEntity product) {
         List<PromotionAfterCalculation> potentialCartPromotions = new ArrayList<>();
         List<PromotionAfterCalculation> potentialItemPromotions = new ArrayList<>();
-        int compareResult = 0;
-        double result = 0;
-        Double tienconlai = 0.0;
-        int conditionItem = 0;
-        for(Promotion promotion : promotionsFilted){
-            PromotionAfterCalculation after = new PromotionAfterCalculation();
-            BeanUtils.copyProperties(promotion,after);
-            if(promotion.getType().equals("cart")) {
-                tienconlai = promotion.getConditionTotalCart() - amount;
-                compareResult = tienconlai.compareTo(amount*(percentage/100));
-                result = promotion.getValue() / Math.pow(tienconlai, 3) * Math.pow(10, 9);
+        double percentage = ranges.floorEntry(amount).getValue();
+        // Filter cart promotions
+        List<Promotion> cartPromotions = getPromotionsWithType("cart",promotionsFiltered);
 
-                if(tienconlai > 0  &&  (compareResult < 0 || promotion.getConditionTotalCart() <= 200000.0))
-                {
-                    after.setResult(result);
-                    after.setTienmuathem(tienconlai);
-                    potentialCartPromotions.add(after);
-                }
+        for (Promotion promotion : cartPromotions) {
+            PromotionAfterCalculation promotionResult = new PromotionAfterCalculation();
+            BeanUtils.copyProperties(promotion, promotionResult);
+
+            calculateAndAddCartPromotion(promotion, promotionResult, potentialCartPromotions, amount, percentage);
+        }
+        // Filter item promotions
+        List<Promotion> itemPromotions = getPromotionsWithType("product",promotionsFiltered);
+        for (Promotion promotion : itemPromotions) {
+            percentage =  rangesItemPromotion.floorEntry(promotion.getPriceProduct()).getValue();
+            PromotionAfterCalculation promotionResult = new PromotionAfterCalculation();
+            BeanUtils.copyProperties(promotion, promotionResult);
+
+            if (product != null && promotion.getProductId().equals(product.getProductId())) {
+                calculateAndAddItemPromotion(promotion, promotionResult , 1 , potentialItemPromotions , percentage);
             }
-            if(promotion.getType().equals("product")){
-                for (Product p :productsOrders){
-                    if(promotion.getProductId().equals(p.getId())){
-                        percentageItem = rangesItemPromotion.floorEntry(promotion.getPriceProduct()).getValue();
-                        conditionItem = percentageItem * promotion.getPriceProduct();
-                        tienconlai = (double) (promotion.getConditionQuantity()*promotion.getPriceProduct() - p.getQuantity() * promotion.getPriceProduct());
-                        if(tienconlai > 0 && tienconlai <= conditionItem) {
-                            result = Math.log(promotion.getValue()) - 3*Math.log(tienconlai);
-                            after.setResult(result + 50);
-                            after.setSoLuongMuaThem(promotion.getConditionQuantity() - p.getQuantity());
-                            potentialItemPromotions.add(after);
-                        }
-                    }
+
+            for (ProductCart p : productsOrders) {
+                if (promotion.getProductId().equals(p.getProductId())) {
+                    calculateAndAddItemPromotion(promotion, promotionResult ,p.getQuantity(), potentialItemPromotions , percentage);
                 }
             }
         }
-        potentialCartPromotions.sort(Comparator.comparing(PromotionAfterCalculation::getResult,Comparator.reverseOrder()));
-        potentialItemPromotions.sort(Comparator.comparing(PromotionAfterCalculation::getResult,Comparator.reverseOrder()));
-        return  new Response(potentialCartPromotions , potentialItemPromotions);
+
+        sortPromotions(potentialCartPromotions);
+        sortPromotions(potentialItemPromotions);
+
+        return new Response(potentialCartPromotions, potentialItemPromotions);
     }
 
+    private void calculateAndAddCartPromotion(Promotion promotion, PromotionAfterCalculation promotionResult,
+                                              List<PromotionAfterCalculation> potentialCartPromotions , double amount , double percentage) {
+        Double remainingAmount = promotion.getConditionTotalCart() - amount;
+
+        if (remainingAmount > 0 && ( remainingAmount.compareTo(amount * ( percentage / 100 )) < 0 || promotion.getConditionTotalCart() <= 200000.0)) {
+            double result = this.formulaPromotion(promotion.getValue(), remainingAmount);
+            promotionResult.setResult(result);
+            promotionResult.setTienmuathem(remainingAmount);
+            potentialCartPromotions.add(promotionResult);
+        }
+    }
+
+    private void calculateAndAddItemPromotion(Promotion promotion, PromotionAfterCalculation promotionResult,int quantity,
+                                              List<PromotionAfterCalculation> potentialItemPromotions, double percentage) {
+
+        int conditionItem = (int) (percentage * promotion.getPriceProduct());
+        double remainingAmount = (promotion.getConditionQuantity() * promotion.getPriceProduct()) - quantity* promotion.getPriceProduct();
+
+        if (remainingAmount > 0 && remainingAmount <= conditionItem) {
+            double result = this.formulaPromotion(promotion.getValue(), remainingAmount);
+            promotionResult.setResult(result);
+            promotionResult.setSoLuongMuaThem(promotion.getConditionQuantity() - quantity);
+            potentialItemPromotions.add(promotionResult);
+        }
+    }
+
+    private void sortPromotions(List<PromotionAfterCalculation> promotions) {
+        promotions.sort(Comparator.comparing(PromotionAfterCalculation::getResult).reversed());
+    }
+
+    public List<Promotion> getPromotionsWithType(String type, List<Promotion> promotions) {
+        return promotions.stream().filter(promotion -> promotion.getType().equals(type)).toList();
+    }
+
+    public Double formulaPromotion(int profit, double remainingAmount) {
+        return Math.log(profit) - 3*Math.log(remainingAmount);
+    }
 }
