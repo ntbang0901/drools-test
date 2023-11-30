@@ -16,7 +16,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "event", schema = "public", catalog = "promotion_fresher")
 public class EventEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "event_id")
     private UUID eventId;

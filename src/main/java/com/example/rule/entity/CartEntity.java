@@ -19,11 +19,9 @@ public class CartEntity {
     @Basic
     @Column(name = "total_price")
     private BigInteger totalPrice;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "cart_id")
     private UUID cartId;
-
     @ManyToOne
     @JoinColumn(name = "people_id", referencedColumnName = "people_id", nullable = false)
     private PeopleEntity peopleByPeopleId;
@@ -38,4 +36,6 @@ public class CartEntity {
     private PaymentEntity paymentByPaymentId;
     @OneToMany(mappedBy = "cartByCartId")
     private Collection<CartItemEntity> cartItemsByCartId;
+    @OneToMany(mappedBy = "cartByCartId")
+    private Collection<CartPaymentEntity> cartPaymentsByCartId;
 }

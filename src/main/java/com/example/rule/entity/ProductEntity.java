@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Table(name = "product", schema = "public", catalog = "promotion_fresher")
 public class ProductEntity {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "product_id")
     private String productId;
@@ -25,8 +27,7 @@ public class ProductEntity {
     @Basic
     @Column(name = "price")
     private BigInteger price;
-
-//    @Basic
+    //    @Basic
 //    @Column(name = "old_product_id")
 //    private String oldProductId;
     @Basic
@@ -44,7 +45,6 @@ public class ProductEntity {
     @Basic
     @Column(name = "expiry_date")
     private Date expiryDate;
-
     @OneToMany(mappedBy = "productByProductId")
     private Collection<CartItemEntity> cartItemsByProductId;
     @ManyToOne
@@ -55,5 +55,4 @@ public class ProductEntity {
     private CategoryEntity categoryByCategoryId;
     @OneToMany(mappedBy = "productByProductId")
     private Collection<PromotionItemEntity> promotionItemsByProductId;
-
 }

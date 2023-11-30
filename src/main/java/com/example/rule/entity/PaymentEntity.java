@@ -18,7 +18,6 @@ public class PaymentEntity {
     @Basic
     @Column(name = "partner")
     private String partner;
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "payment_id")
@@ -36,5 +35,8 @@ public class PaymentEntity {
     private PaymentMethodEntity paymentMethodByPaymentMethodId;
     @OneToMany(mappedBy = "paymentByPaymentId")
     private Collection<PromotionEntity> promotionsByPaymentId;
-
+    @OneToMany(mappedBy = "paymentByPaymentId")
+    private Collection<CartPaymentEntity> cartPaymentsByPaymentId;
+    @OneToMany(mappedBy = "paymentByPaymentId")
+    private Collection<PromotionPaymentEntity> promotionPaymentsByPaymentId;
 }

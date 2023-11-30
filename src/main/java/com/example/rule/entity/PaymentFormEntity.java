@@ -16,7 +16,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "payment_form", schema = "public", catalog = "promotion_fresher")
 public class PaymentFormEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "payment_form_id")
     private UUID paymentFormId;
@@ -37,5 +36,4 @@ public class PaymentFormEntity {
     private Double rate;
     @OneToMany(mappedBy = "paymentFormByPaymentFormId")
     private Collection<PaymentEntity> paymentsByPaymentFormId;
-
 }

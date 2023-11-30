@@ -14,9 +14,8 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "people")
+@Table(name = "people", schema = "public", catalog = "promotion_fresher")
 public class PeopleEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "people_id")
     private UUID peopleId;
@@ -50,5 +49,6 @@ public class PeopleEntity {
     private PlaceEntity placeByPlaceId;
     @OneToMany(mappedBy = "peopleByPeopleId")
     private Collection<PromotionEntity> promotionsByPeopleId;
-
+    @OneToMany(mappedBy = "peopleByPeopleId")
+    private Collection<PromotionPeopleEntity> promotionPeopleByPeopleId;
 }

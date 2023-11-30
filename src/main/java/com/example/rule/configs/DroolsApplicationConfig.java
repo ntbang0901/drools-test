@@ -21,36 +21,36 @@ import java.util.List;
 public class DroolsApplicationConfig {
 
     private static final KieServices kieServices = KieServices.Factory.get();
-    private static final String RULES_CUSTOMER_RULES_DRL = "rules/loan_rate.drl";
-
-//    @Bean
-//    public KieContainer kieContainer() {
-//        KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-//        kieFileSystem.write(ResourceFactory.newClassPathResource(RULES_CUSTOMER_RULES_DRL));
-//        KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
-//        kb.buildAll();
-//        KieModule kieModule = kb.getKieModule();
-//        KieContainer kieContainer = kieServices.newKieContainer(kieModule.getReleaseId());
-//        return kieContainer;
-//    }
-
+    private static final String RULES_CUSTOMER_RULES_DRL = "rules/rule3.drl";
 
     @Bean
     public KieContainer kieContainer() {
-        KieServices kieServices = KieServices.Factory.get();
-
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
-        File dir = new File("src/main/resources/rules");
-        File[] directoryListing = dir.listFiles();
-        if (directoryListing != null) {
-            for (File child : directoryListing) {
-                kieFileSystem.write(ResourceFactory.newFileResource(child));
-            }
-        }
-        KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
-        kieBuilder.buildAll();
-        KieModule kieModule = kieBuilder.getKieModule();
-        //        return kieContainer;
-        return kieServices.newKieContainer(kieModule.getReleaseId());
+        kieFileSystem.write(ResourceFactory.newClassPathResource(RULES_CUSTOMER_RULES_DRL));
+        KieBuilder kb = kieServices.newKieBuilder(kieFileSystem);
+        kb.buildAll();
+        KieModule kieModule = kb.getKieModule();
+        KieContainer kieContainer = kieServices.newKieContainer(kieModule.getReleaseId());
+        return kieContainer;
     }
+
+
+//    @Bean
+//    public KieContainer kieContainer() {
+//        KieServices kieServices = KieServices.Factory.get();
+//
+//        KieFileSystem kieFileSystem = kieServices.newKieFileSystem();
+//        File dir = new File("src/main/resources/rules");
+//        File[] directoryListing = dir.listFiles();
+//        if (directoryListing != null) {
+//            for (File child : directoryListing) {
+//                kieFileSystem.write(ResourceFactory.newFileResource(child));
+//            }
+//        }
+//        KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem);
+//        kieBuilder.buildAll();
+//        KieModule kieModule = kieBuilder.getKieModule();
+//        //        return kieContainer;
+//        return kieServices.newKieContainer(kieModule.getReleaseId());
+//    }
 }
