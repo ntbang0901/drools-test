@@ -19,16 +19,26 @@ import com.example.rule.model.ProductCart;
 //        rate.addPromotion($promotion);
 //
 //end
-//d
-
-rule "Apply Promotion"
+rule "Apply Promotion 2"
     when
 
-        $cartItem : CartItem()
+        $cartItem : CartItem($cartItem.getTotalPrice() > 0)
         $product : ProductCart()
-        $promotion: Promotion( productId == $product.getProductId())
+        $promotion: Promotion(productId == null)
     then
         // Áp dụng khuyến mãi vào giỏ hàng
         rate.addPromotion($promotion);
 
 end
+
+//rule "Apply Promotion"
+//    when
+//
+//        $cartItem : CartItem($cartItem.getTotalPrice() > 0)
+//        $product : Product()
+//        $promotion: Promotion(productId == $product.getId() || productId == null)
+//    then
+//        // Áp dụng khuyến mãi vào giỏ hàng
+//        rate.addPromotion($promotion);
+//
+//end
