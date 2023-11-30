@@ -15,7 +15,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Table(name = "province", schema = "public", catalog = "promotion_fresher")
 public class ProvinceEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "province_id")
     private UUID provinceId;
@@ -24,5 +23,4 @@ public class ProvinceEntity {
     private String provinceName;
     @OneToMany(mappedBy = "provinceByProvinceId")
     private Collection<PlaceEntity> placesByProvinceId;
-
 }

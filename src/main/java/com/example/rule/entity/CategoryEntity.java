@@ -15,7 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "category", schema = "public", catalog = "promotion_fresher")
 public class CategoryEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "category_id")
     private UUID categoryId;
@@ -26,5 +25,6 @@ public class CategoryEntity {
     private Collection<ProductEntity> productsByCategoryId;
     @OneToMany(mappedBy = "categoryByCategoryId")
     private Collection<PromotionEntity> promotionsByCategoryId;
-
+    @OneToMany(mappedBy = "categoryByCategoryId")
+    private Collection<PromotionCategoryEntity> promotionCategoriesByCategoryId;
 }

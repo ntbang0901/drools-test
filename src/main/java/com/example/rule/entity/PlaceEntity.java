@@ -15,8 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "place", schema = "public", catalog = "promotion_fresher")
 public class PlaceEntity {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "place_id")
     private UUID placeId;
@@ -34,9 +32,10 @@ public class PlaceEntity {
     @JoinColumn(name = "province_id", referencedColumnName = "province_id", nullable = false)
     private ProvinceEntity provinceByProvinceId;
     @ManyToOne
-    @JoinColumn(name = "channel_id", referencedColumnName = "channel_id", nullable = false)
+    @JoinColumns(@JoinColumn(name = "channel_id", referencedColumnName = "channel_id"))
     private ChannelEntity channelByChannelId;
     @OneToMany(mappedBy = "placeByPlaceId")
     private Collection<PromotionEntity> promotionsByPlaceId;
-
+    @OneToMany(mappedBy = "placeByPlaceId")
+    private Collection<PromotionPlaceEntity> promotionPlacesByPlaceId;
 }

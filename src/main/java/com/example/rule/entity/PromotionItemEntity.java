@@ -14,16 +14,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "promotion_item", schema = "public", catalog = "promotion_fresher")
 public class PromotionItemEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "promotion_item_id")
     private UUID promotionItemId;
-
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false)
     private ProductEntity productByProductId;
     @ManyToOne
     @JoinColumn(name = "promotion_id", referencedColumnName = "promotion_id")
     private PromotionEntity promotionByPromotionId;
-
 }

@@ -15,7 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "channel", schema = "public", catalog = "promotion_fresher")
 public class ChannelEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "channel_id")
     private UUID channelId;
@@ -30,5 +29,4 @@ public class ChannelEntity {
     private String url;
     @OneToMany(mappedBy = "channelByChannelId")
     private Collection<PlaceEntity> placesByChannelId;
-
 }

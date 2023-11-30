@@ -21,7 +21,7 @@ import java.util.List;
 public class DroolsApplicationConfig {
 
     private static final KieServices kieServices = KieServices.Factory.get();
-    private static final String RULES_CUSTOMER_RULES_DRL = "rules/rule2.drl";
+    private static final String RULES_CUSTOMER_RULES_DRL = "rules/rule3.drl";
 
     @Bean
     public KieContainer kieContainer() {

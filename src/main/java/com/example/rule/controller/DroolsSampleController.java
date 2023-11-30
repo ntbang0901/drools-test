@@ -4,6 +4,7 @@ import com.example.rule.model.*;
 import com.example.rule.service.DroolsService;
 
 import com.example.rule.service.ProductService;
+import com.example.rule.service.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public class DroolsSampleController {
 
     @Autowired
     private ProductService productService;
+
 
     @CrossOrigin
     @PostMapping("/suggest-promotion")

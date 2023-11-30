@@ -17,8 +17,6 @@ public class CartItemEntity {
     @Basic
     @Column(name = "quantity")
     private int quantity;
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "cart_item_id")
     private UUID cartItemId;
@@ -28,5 +26,6 @@ public class CartItemEntity {
     @ManyToOne
     @JoinColumn(name = "cart_id", referencedColumnName = "cart_id", nullable = false)
     private CartEntity cartByCartId;
+
 
 }
